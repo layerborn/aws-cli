@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  aws_cli_local:
+    env_file:
+      - .env
+    container_name: aws-cli_local
+    image: "localhost:5000/aws-cli:${TAG}"
+    command: -inMemory
+    entrypoint: aws
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    volumes:
+      - ~/.aws/credentials:/root/.aws/credentials
+    build:
+      context: .
+  aws_cli_registry:
+    env_file:
+      - .env
+    container_name: aws-cli_registry
+    image: "layerborn/aws-cli:${TAG}"
+    build:
+      context: .
